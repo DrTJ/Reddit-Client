@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:pages="clr-namespace:RedditClient.Pages;assembly=RedditClient"
+                  x:Class="RedditClient.Pages.MasterPage">
+
+    <MasterDetailPage.Master>
+        <pages:DrawerPage />
+    </MasterDetailPage.Master>
+
+    <MasterDetailPage.Detail>
+        <pages:HomePage />
+    </MasterDetailPage.Detail>
+</MasterDetailPage>

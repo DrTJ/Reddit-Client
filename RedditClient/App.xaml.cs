@@ -8,7 +8,7 @@ namespace RedditClient
         {
             InitializeComponent();
 
-            MainPage = new RedditClientPage();
+            MainPage = new Pages.MasterPage();
         }
 
         protected override void OnStart()
