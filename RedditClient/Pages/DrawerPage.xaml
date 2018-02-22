@@ -13,24 +13,24 @@
 	<ContentPage.Content>
         <StackLayout Margin="5,20,5,5">
             <StackLayout Orientation="Horizontal" VerticalOptions="Start">
-                <BoxView BackgroundColor="Blue" WidthRequest="10" HeightRequest="10" VerticalOptions="Start" />
+                <Image WidthRequest="16" HeightRequest="16" VerticalOptions="Start" Source="blue20.png" />
                 <Label Text="Author name" FontSize="Small" TextColor="White" />
                 <Label Text="18 hours ago" FontSize="Micro" TextColor="Gray" />
             </StackLayout>
 
             <StackLayout Orientation="Horizontal">
                 <Image WidthRequest="50" HeightRequest="50" BackgroundColor="Lime" />
-                <Label Text="TIL After Col." FontSize="Medium" TextColor="White"  VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" />
-                <Label Text=">" FontSize="Medium" TextColor="White" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" HorizontalOptions="End" />
+                <Label Text="TIL After Col." FontSize="Small" TextColor="White"  VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" />
+                <Image Source="arrow_right32.png" VerticalOptions="Center" HorizontalOptions="End" WidthRequest="40" />
             </StackLayout>
 
             <StackLayout Orientation="Horizontal" VerticalOptions="End">
-                <Image WidthRequest="20" HeightRequest="20" BackgroundColor="Olive" VerticalOptions="Start" />
+                <Image WidthRequest="24" HeightRequest="24" VerticalOptions="Start" Source="close32.png" />
                 <Label Text="Dismiss Post" FontSize="Micro" TextColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" />
                 <Label Text="1518 comments" FontSize="Micro" TextColor="#ffa500" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" />
             </StackLayout>
 
-            <BoxView BackgroundColor="#ffa500" HorizontalOptions="FillAndExpand" VerticalOptions="End" Margin="15,0" HeightRequest="0.5" />
+            <BoxView BackgroundColor="Silver" HorizontalOptions="FillAndExpand" VerticalOptions="End" Margin="15,0" HeightRequest="0.5" />
         </StackLayout> 
     </ContentPage.Content>
 </ContentPage>
