@@ -11,6 +11,26 @@
     </ContentPage.BindingContext>
     
 	<ContentPage.Content>
+        <StackLayout Margin="5,20,5,5">
+            <StackLayout Orientation="Horizontal" VerticalOptions="Start">
+                <BoxView BackgroundColor="Blue" WidthRequest="10" HeightRequest="10" VerticalOptions="Start" />
+                <Label Text="Author name" FontSize="Small" TextColor="White" />
+                <Label Text="18 hours ago" FontSize="Micro" TextColor="Gray" />
+            </StackLayout>
 
+            <StackLayout Orientation="Horizontal">
+                <Image WidthRequest="50" HeightRequest="50" BackgroundColor="Lime" />
+                <Label Text="TIL After Col." FontSize="Medium" TextColor="White"  VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" />
+                <Label Text=">" FontSize="Medium" TextColor="White" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" HorizontalOptions="End" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" VerticalOptions="End">
+                <Image WidthRequest="20" HeightRequest="20" BackgroundColor="Olive" VerticalOptions="Start" />
+                <Label Text="Dismiss Post" FontSize="Micro" TextColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" />
+                <Label Text="1518 comments" FontSize="Micro" TextColor="#ffa500" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" />
+            </StackLayout>
+
+            <BoxView BackgroundColor="#ffa500" HorizontalOptions="FillAndExpand" VerticalOptions="End" Margin="15,0" HeightRequest="0.5" />
+        </StackLayout> 
     </ContentPage.Content>
 </ContentPage>
