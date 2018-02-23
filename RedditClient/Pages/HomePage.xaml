@@ -11,6 +11,10 @@
     </ContentPage.BindingContext>
 
 	<ContentPage.Content>
+        <StackLayout HorizontalOptions="FillAndExpand"
+                     VerticalOptions="Start"
+                     HeightRequest="50" 
+                     BackgroundColor="Black" />
         
     </ContentPage.Content>
 </ContentPage>
