@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="RedditClient.Pages.HomePage"
              xmlns:viewModels="clr-namespace:RedditClient.ViewModels;assembly=RedditClient"
+             xmlns:converters="clr-namespace:RedditClient.Converters;assembly=RedditClient"
              Title="Home"
              BackgroundColor="White">
 
@@ -10,11 +11,36 @@
         <viewModels:HomePageViewModel />
     </ContentPage.BindingContext>
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BooleanInverseConverter x:Key="BooleanInverseConverter" />
+            <converters:NullToBooleanInverseConverter x:Key="NullToBooleanInverseConverter" />
+            <converters:NullToBooleanConverter x:Key="NullToBooleanConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
 	<ContentPage.Content>
         <StackLayout HorizontalOptions="FillAndExpand"
-                     VerticalOptions="Start"
-                     HeightRequest="50" 
-                     BackgroundColor="Black" />
-        
+                     VerticalOptions="FillAndExpand">
+
+            <StackLayout HorizontalOptions="FillAndExpand"
+                         VerticalOptions="Start"
+                         HeightRequest="50" 
+                         IsVisible="{Binding CurrentPost, Converter={StaticResource NullToBooleanInverseConverter}}"
+                         BackgroundColor="Black" />
+
+            <StackLayout HorizontalOptions="FillAndExpand"
+                         VerticalOptions="FillAndExpand"
+                         Margin="10,20"
+                         IsVisible="{Binding CurrentPost, Converter={StaticResource NullToBooleanConverter}}">
+
+                <Label Text="{Binding CurrentPost.PostTitle}" FontAttributes="Bold" TextColor="Black" HorizontalOptions="FillAndExpand" />
+
+                <Image Source="{Binding CurrentPost.ImagePath}" HorizontalOptions="Center" />
+
+                <Label Text="{Binding CurrentPost.PostText}" TextColor="Black" FontSize="Small" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

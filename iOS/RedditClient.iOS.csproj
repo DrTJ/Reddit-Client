@@ -125,6 +125,7 @@
     <BundleResource Include="Resources\arrow_right32.png" />
     <BundleResource Include="Resources\blue20.png" />
     <BundleResource Include="Resources\gray20.png" />
+    <BundleResource Include="Resources\refresh32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.121934\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.121934\build\netstandard1.0\Xamarin.Forms.targets')" />

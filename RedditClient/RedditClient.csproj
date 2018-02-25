@@ -65,6 +65,8 @@
     <Compile Include="Converters\BooleanInverseConverter.cs" />
     <Compile Include="Models\RedditPost.cs" />
     <Compile Include="Controls\RepeaterLayout.cs" />
+    <Compile Include="Converters\NullToBooleanConverter.cs" />
+    <Compile Include="Converters\NullToBooleanInverseConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

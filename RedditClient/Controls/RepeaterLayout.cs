@@ -10,13 +10,65 @@ namespace RedditClient.Controls
     {
         #region Fields
 
+        private ScrollView scrollView;
+        private StackLayout contentLayout;
+        private StackLayout pullToRefreshLayout;
+        private bool isPullingToRefresh;
+
         #endregion
 
         #region Constructors
 
         public RepeaterLayout()
         {
-            
+            IsPullingToRefresh = false;
+
+            contentLayout = new StackLayout()
+            {
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.FillAndExpand
+            };
+
+            scrollView = new ScrollView()
+            {
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.FillAndExpand,
+                Content = contentLayout
+            };
+            scrollView.Scrolled += ScrollView_Scrolled;
+
+            #region Pull to refresh layouts
+
+            pullToRefreshLayout = new StackLayout()
+            {
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.Start,
+                IsVisible = false,
+            };
+
+            var refreshImage = new Image()
+            {
+                Source = "refresh32.png",
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center, 
+            };
+
+            pullToRefreshLayout.Children.Add(refreshImage);
+
+            #endregion
+
+            var gridView = new Grid()
+            {
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.FillAndExpand,
+                RowDefinitions = new RowDefinitionCollection() { new RowDefinition() },
+                ColumnDefinitions = new ColumnDefinitionCollection() { new ColumnDefinition() }            
+            };
+
+			gridView.Children.Add(pullToRefreshLayout, 0, 0);
+            gridView.Children.Add(scrollView, 0, 0);
+
+            Children.Add(gridView);
         }
 
         #endregion
@@ -52,6 +104,20 @@ namespace RedditClient.Controls
             typeof(RepeaterLayout)
         );
 
+        public static readonly BindableProperty PullToRefreshCommandProperty = BindableProperty.Create(
+            nameof(PullToRefreshCommand),
+            typeof(Command),
+            typeof(RepeaterLayout)
+        );
+
+        public static readonly BindableProperty IsPullToRefreshEnabledProperty = BindableProperty.Create(
+            nameof(IsPullToRefreshEnabled),
+            typeof(bool),
+            typeof(RepeaterLayout),
+            false
+        );
+
+
         #endregion
 
         #region Properties
@@ -74,6 +140,32 @@ namespace RedditClient.Controls
             set { SetValue(ItemTappedCommandProperty, value); }
         }
 
+        public Command PullToRefreshCommand
+        {
+            get => (Command)GetValue(PullToRefreshCommandProperty);
+            set { SetValue(PullToRefreshCommandProperty, value); }
+        }
+
+        public bool IsPullToRefreshEnabled
+        {
+            get => (bool)GetValue(IsPullToRefreshEnabledProperty);
+            set { SetValue(IsPullToRefreshEnabledProperty, value); }
+        }
+
+        public bool IsPullingToRefresh
+        {
+            get => isPullingToRefresh;
+            set 
+            {
+                isPullingToRefresh = value;
+
+                if (pullToRefreshLayout != null)
+                {
+                    pullToRefreshLayout.IsVisible = value;
+                }
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -82,7 +174,7 @@ namespace RedditClient.Controls
         {
             if (ItemsSource == null || ItemsSource.Count == 0)
             {
-                this.Children.Clear();
+                this.contentLayout.Children.Clear();
                 return;
             }
 
@@ -92,7 +184,7 @@ namespace RedditClient.Controls
 
                 if (view != null)
                 {
-                    this.Children.Add(view);
+                    this.contentLayout.Children.Add(view);
                 }
             }
         }
@@ -117,6 +209,27 @@ namespace RedditClient.Controls
             return view;
         }
 
+        private void ScrollView_Scrolled(object sender, ScrolledEventArgs e)
+        {
+            if(e.ScrollY <= -50 && !IsPullingToRefresh)
+            {
+                IsPullingToRefresh = true;
+
+                // The user is pulling to refresh
+                if(PullToRefreshCommand == null || !IsPullToRefreshEnabled || !PullToRefreshCommand.CanExecute(null))
+                {
+                    return;
+                }
+
+                PullToRefreshCommand.Execute(null);
+            }
+
+            if(e.ScrollY >= 0 && IsPullingToRefresh)
+            {
+                IsPullingToRefresh = false;
+            }
+        }
+		
         #endregion
     }
 }

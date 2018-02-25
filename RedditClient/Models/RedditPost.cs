@@ -9,6 +9,8 @@ namespace RedditClient.Models
 
         private string postTitle;
 
+        private string postText;
+
         private bool isRead;
 
         private string authorName;
@@ -31,6 +33,12 @@ namespace RedditClient.Models
         {
             get { return postTitle; }
             set { SetProperty(ref postTitle, value); }
+        }
+
+        public string PostText
+        {
+            get { return postText; }
+            set { SetProperty(ref postText, value); }
         }
 
         public bool IsRead

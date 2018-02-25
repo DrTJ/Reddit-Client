@@ -30,21 +30,22 @@
                        VerticalTextAlignment="Center" 
                        HorizontalTextAlignment="Center" />
             </StackLayout>
-
-            <ScrollView HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        Margin="5">
-                
-                <controls:RepeaterLayout HorizontalOptions="FillAndExpand"    
-                                         VerticalOptions="FillAndExpand"
-                                         BackgroundColor="Transparent" 
-                                         ItemsSource="{Binding DrawerItems}">
+                            
+            <controls:RepeaterLayout HorizontalOptions="FillAndExpand"
+                                     VerticalOptions="FillAndExpand"
+                                     BackgroundColor="Transparent" 
+                                     ItemsSource="{Binding DrawerItems}"
+                                     Margin="5"
+                                     IsPullToRefreshEnabled="true" 
+                                     PullToRefreshCommand="{Binding PullToRefreshCommand}"
+                >
                     <controls:RepeaterLayout.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Padding="7,5,3,3" HorizontalOptions="FillAndExpand">
                                     <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding BindingContext.ItemTappedCommand, Source={x:Reference MainLayout}}" />
+                                        <TapGestureRecognizer Command="{Binding BindingContext.ItemTappedCommand, Source={x:Reference MainLayout}}"
+                                                              CommandParameter="{Binding}"/>
                                     </StackLayout.GestureRecognizers>
 
                                     <StackLayout Padding="0">
@@ -77,8 +78,7 @@
                             </ViewCell>
                         </DataTemplate>
                     </controls:RepeaterLayout.ItemTemplate>
-                </controls:RepeaterLayout>
-            </ScrollView>
+            </controls:RepeaterLayout>
 
             <Button HorizontalOptions="FillAndExpand"
                     VerticalOptions="End"
