@@ -25,7 +25,7 @@ namespace RedditClient.ViewModels
         {
             DrawerItems = new List<RedditPost>
             {
-                new RedditPost { PostTitle = "Post 1", AuthorName = "Mohammad", CommentsCount = 2000, FormattedPublishDate = "18 hours ago", IsRead = false, ImagePath = "" },
+                new RedditPost { PostTitle = "Post 1 Post 1 Post 1 Post 1 Post 1 Post 1 Post 1 Post 1 Post 1 Post 1 Post 1 Post 1 Post 1", AuthorName = "Mohammad", CommentsCount = 2000, FormattedPublishDate = "18 hours ago", IsRead = false, ImagePath = "" },
                 new RedditPost { PostTitle = "Post 2", AuthorName = "Mohammad", CommentsCount = 158, FormattedPublishDate = "9 hours ago", IsRead = false, ImagePath = "" },
                 new RedditPost { PostTitle = "Post 3", AuthorName = "Mohammad", CommentsCount = 233, FormattedPublishDate = "4 hours ago", IsRead = true, ImagePath = "" }
             };
@@ -47,6 +47,7 @@ namespace RedditClient.ViewModels
 
         public Command ItemTappedCommand => itemTappedCommand ?? (itemTappedCommand = new Command(data =>
         {
+            
         }));
 
         public Command DismissItemCommand => dismissItemCommand ?? (dismissItemCommand = new Command(data =>

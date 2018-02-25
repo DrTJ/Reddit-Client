@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="RedditClient.Pages.DrawerPage" 
+             x:Name="MainLayout" 
              xmlns:viewModels="clr-namespace:RedditClient.ViewModels;assembly=RedditClient"
              xmlns:converters="clr-namespace:RedditClient.Converters;assembly=RedditClient"
              xmlns:controls="clr-namespace:RedditClient.Controls;assembly=RedditClient"
@@ -19,52 +20,71 @@
     </ContentPage.Resources>
     
 	<ContentPage.Content>
-        <StackLayout Margin="5,20,5,5">
-            <controls:AdvancedListView HorizontalOptions="FillAndExpand"    
-                                       VerticalOptions="FillAndExpand"
-                                       RowHeight="110" 
-                                       BackgroundColor="Transparent"
-                                       SeparatorVisibility="None" 
-                                       SeparatorColor="Transparent"
-                                       ItemsSource="{Binding DrawerItems}"
-                                       ItemTappedCommand="{Binding ItemTappedCommand}">
-                <controls:AdvancedListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="7,20,3,3">
-                                <StackLayout Orientation="Horizontal" VerticalOptions="Start">
-                                    <Image WidthRequest="12" HeightRequest="12" VerticalOptions="Start" Source="blue20.png" IsVisible="{Binding IsRead, Converter={StaticResource BooleanInverseConverter}}" />
-                                    <Label Text="{Binding AuthorName}" FontSize="Small" TextColor="White" />
-                                    <Label Text="{Binding FormattedPublishDate}" FontSize="Micro" TextColor="Gray" />
-                                </StackLayout>
+        <StackLayout>
+            <StackLayout Padding="0,25,0,10" BackgroundColor="#101010" VerticalOptions="Start">
+                <Label Text="Reddit Posts" 
+                       TextColor="White" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="FillAndExpand" 
+                       VerticalOptions="FillAndExpand" 
+                       VerticalTextAlignment="Center" 
+                       HorizontalTextAlignment="Center" />
+            </StackLayout>
 
-                                <StackLayout Orientation="Horizontal">
-                                    <Image WidthRequest="50" HeightRequest="50" BackgroundColor="Lime" Source="{Binding ImagePath}" />
-                                    <Label Text="{Binding PostTitle}" FontSize="Small" TextColor="White"  VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" LineBreakMode="WordWrap" />
-                                    <Image Source="arrow_right32.png" VerticalOptions="Center" HorizontalOptions="End" WidthRequest="40" />
-                                </StackLayout>
-
-                                <StackLayout Orientation="Horizontal" VerticalOptions="End">
+            <ScrollView HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        Margin="5">
+                
+                <controls:RepeaterLayout HorizontalOptions="FillAndExpand"    
+                                         VerticalOptions="FillAndExpand"
+                                         BackgroundColor="Transparent" 
+                                         ItemsSource="{Binding DrawerItems}">
+                    <controls:RepeaterLayout.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="7,5,3,3" HorizontalOptions="FillAndExpand">
                                     <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding DismissItemCommand}" />
+                                        <TapGestureRecognizer Command="{Binding BindingContext.ItemTappedCommand, Source={x:Reference MainLayout}}" />
                                     </StackLayout.GestureRecognizers>
 
-                                    <Image WidthRequest="24" HeightRequest="24" VerticalOptions="Start" Source="close32.png" />
-                                    <Label Text="Dismiss Post" FontSize="Micro" TextColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" />
-                                    <Label Text="{Binding CommentsCount, StringFormat='{0:N0} comments'}" FontSize="Micro" TextColor="#ffa500" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" />
-                                </StackLayout>
+                                    <StackLayout Padding="0">
+                                        <StackLayout Orientation="Horizontal" VerticalOptions="Start">
+                                            <Image WidthRequest="12" HeightRequest="12" VerticalOptions="Center" Source="blue20.png" IsVisible="{Binding IsRead, Converter={StaticResource BooleanInverseConverter}}" />
+                                            <Image WidthRequest="12" HeightRequest="12" VerticalOptions="Center" Source="gray20.png" IsVisible="{Binding IsRead}" />
+                                            <Label Text="{Binding AuthorName}" FontSize="Small" TextColor="White" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" />
+                                            <Label Text="{Binding FormattedPublishDate}" FontSize="Micro" TextColor="Gray" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" />
+                                        </StackLayout>
 
-                                <BoxView BackgroundColor="Silver" HorizontalOptions="FillAndExpand" VerticalOptions="End" Margin="15,0" HeightRequest="0.5" />
-                            </StackLayout> 
-                        </ViewCell>
-                    </DataTemplate>
-                </controls:AdvancedListView.ItemTemplate>
-            </controls:AdvancedListView>
-            
+                                        <StackLayout Orientation="Horizontal">
+                                            <Image WidthRequest="50" HeightRequest="50" BackgroundColor="Lime" Source="{Binding ImagePath}" />
+                                            <Label Text="{Binding PostTitle}" FontSize="Micro" TextColor="White"  VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" LineBreakMode="WordWrap" />
+                                            <Image Source="arrow_right32.png" VerticalOptions="Center" HorizontalOptions="End" WidthRequest="40" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                    
+                                    <StackLayout Orientation="Horizontal" VerticalOptions="End">
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.DismissItemCommand, Source={x:Reference MainLayout}}" />
+                                        </StackLayout.GestureRecognizers>
+
+                                        <Image WidthRequest="24" HeightRequest="24" VerticalOptions="Start" Source="close32.png" />
+                                        <Label Text="Dismiss Post" FontSize="Micro" TextColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" />
+                                        <Label Text="{Binding CommentsCount, StringFormat='{0:N0} comments'}" FontSize="Micro" TextColor="#ffa500" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center" />
+                                    </StackLayout>
+
+                                    <BoxView BackgroundColor="Silver" HorizontalOptions="FillAndExpand" VerticalOptions="End" Margin="15,0" HeightRequest="0.5" />
+                                </StackLayout> 
+                            </ViewCell>
+                        </DataTemplate>
+                    </controls:RepeaterLayout.ItemTemplate>
+                </controls:RepeaterLayout>
+            </ScrollView>
+
+            <Button HorizontalOptions="FillAndExpand"
+                    VerticalOptions="End"
+                    Text="Dismiss All"
+                    TextColor="#ffa500"
+                    Command="{Binding DismissAllCommand}" />
         </StackLayout>
-
-        
-        
-
     </ContentPage.Content>
 </ContentPage>

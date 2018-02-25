@@ -64,7 +64,7 @@
     <Compile Include="ViewModels\DrawerPageViewModel.cs" />
     <Compile Include="Converters\BooleanInverseConverter.cs" />
     <Compile Include="Models\RedditPost.cs" />
-    <Compile Include="Controls\AdvancedListView.cs" />
+    <Compile Include="Controls\RepeaterLayout.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">
