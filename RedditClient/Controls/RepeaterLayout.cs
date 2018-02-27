@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using Xamarin.Forms;
 
@@ -78,14 +79,8 @@ namespace RedditClient.Controls
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
             nameof(ItemsSource),
             typeof(IList),
-            typeof(RepeaterLayout), 
-            propertyChanged: (bindable, oldValue, newValue) =>
-            {
-                var control = bindable as RepeaterLayout;
-                control.ItemsSource = (IList)newValue;
-                control.RebuildList();
-            }
-        );
+            typeof(RepeaterLayout),
+            propertyChanged: ItemsSourcePropertyChanged);
 
         public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(
             nameof(ItemTemplate),
@@ -117,6 +112,17 @@ namespace RedditClient.Controls
             false
         );
 
+        public static readonly BindableProperty ItemRemovingCommandProperty = BindableProperty.Create(
+            nameof(ItemRemovingCommand),
+            typeof(Command<object>),
+            typeof(RepeaterLayout)
+        );
+
+        public static readonly BindableProperty ItemAddingCommandProperty = BindableProperty.Create(
+            nameof(ItemAddingCommand),
+            typeof(Command<object>),
+            typeof(RepeaterLayout)
+        );
 
         #endregion
 
@@ -166,15 +172,28 @@ namespace RedditClient.Controls
             }
         }
 
+        public Command<object> ItemRemovingCommand
+        {
+            get => (Command<object>)GetValue(ItemRemovingCommandProperty);
+            set { SetValue(ItemRemovingCommandProperty, value); }
+        }
+
+        public Command<object> ItemAddingCommand
+        {
+            get => (Command<object>)GetValue(ItemAddingCommandProperty);
+            set { SetValue(ItemAddingCommandProperty, value); }
+        }
+
         #endregion
 
         #region Methods
 
         public void RebuildList()
         {
-            if (ItemsSource == null || ItemsSource.Count == 0)
+			this.contentLayout.Children.Clear();
+
+            if (ItemsSource == null)
             {
-                this.contentLayout.Children.Clear();
                 return;
             }
 
@@ -230,6 +249,59 @@ namespace RedditClient.Controls
             }
         }
 		
+        public static void ItemsSourcePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var control = bindable as RepeaterLayout;
+
+            NotifyCollectionChangedEventHandler itemsSourceCollectionChanged = (sender, e) => { ItemsSourceCollectionChanged(control, sender as List<object>, e); };
+
+            var oldObservableCollection = oldValue as INotifyCollectionChanged;
+            if (oldObservableCollection != null)
+            {
+                oldObservableCollection.CollectionChanged -= itemsSourceCollectionChanged;
+            }
+
+            var newObservableCollection = newValue as INotifyCollectionChanged;
+            if (newObservableCollection != null)
+            {
+                newObservableCollection.CollectionChanged += itemsSourceCollectionChanged;
+            }
+
+            control.ItemsSource = (IList)newValue;
+            control.RebuildList();
+        }
+
+        public static void ItemsSourceCollectionChanged(RepeaterLayout control, List<object> items, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+            {
+                foreach (var item in e.OldItems)
+                {
+                    if (control.ItemRemovingCommand?.CanExecute(item) ?? false)
+                    {
+                        control.ItemRemovingCommand?.Execute(item);
+                    }
+
+                    control.ItemsSource.Remove(item);
+                }
+            }
+
+            if (e.NewItems != null)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    if (control.ItemAddingCommand?.CanExecute(item) ?? false)
+                    {
+                        control.ItemAddingCommand?.Execute(item);
+                    }
+
+                    control.ItemsSource.Add(item);
+                }
+            }
+
+            control.RebuildList();
+        }
+
         #endregion
     }
 }

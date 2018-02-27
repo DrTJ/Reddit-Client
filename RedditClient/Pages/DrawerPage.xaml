@@ -30,15 +30,14 @@
                        VerticalTextAlignment="Center" 
                        HorizontalTextAlignment="Center" />
             </StackLayout>
-                            
+
             <controls:RepeaterLayout HorizontalOptions="FillAndExpand"
                                      VerticalOptions="FillAndExpand"
                                      BackgroundColor="Transparent" 
                                      ItemsSource="{Binding DrawerItems}"
                                      Margin="5"
                                      IsPullToRefreshEnabled="true" 
-                                     PullToRefreshCommand="{Binding PullToRefreshCommand}"
-                >
+                                     PullToRefreshCommand="{Binding PullToRefreshCommand}">
                     <controls:RepeaterLayout.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -65,7 +64,8 @@
                                     
                                     <StackLayout Orientation="Horizontal" VerticalOptions="End">
                                         <StackLayout.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding BindingContext.DismissItemCommand, Source={x:Reference MainLayout}}" />
+                                            <TapGestureRecognizer Command="{Binding BindingContext.DismissItemCommand, Source={x:Reference MainLayout}}"
+                                                                  CommandParameter="{Binding}"/>
                                         </StackLayout.GestureRecognizers>
 
                                         <Image WidthRequest="24" HeightRequest="24" VerticalOptions="Start" Source="close32.png" />

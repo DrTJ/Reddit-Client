@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using RedditClient.Helpers;
 using RedditClient.Models;
 using Xamarin.Forms;
 
@@ -9,11 +11,11 @@ namespace RedditClient.ViewModels
     {
         #region Fields
 		
-        private List<RedditPost> drawerItems;
+        private ObservableCollection<RedditPost> drawerItems;
 
-        private Command itemTappedCommand;
+        private Command<RedditPost> itemTappedCommand;
 
-        private Command dismissItemCommand;
+        private Command<RedditPost> dismissItemCommand;
 
         private Command dismissAllCommand;
 
@@ -25,49 +27,14 @@ namespace RedditClient.ViewModels
 
         public DrawerPageViewModel()
         {
-            DrawerItems = new List<RedditPost>
-            {
-                new RedditPost { PostTitle = "Post 1 Post 1 Post 1 Post 1 Post 1 Post 1", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 2000, FormattedPublishDate = "18 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 2", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 158, FormattedPublishDate = "9 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 3", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 233, FormattedPublishDate = "4 hours ago", IsRead = true, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 1 Post 1 Post 1 Post 1 Post 1 Post 1", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 2000, FormattedPublishDate = "18 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 2", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 158, FormattedPublishDate = "9 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 3", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 233, FormattedPublishDate = "4 hours ago", IsRead = true, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 1 Post 1 Post 1 Post 1 Post 1 Post 1", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 2000, FormattedPublishDate = "18 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 2", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 158, FormattedPublishDate = "9 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 3", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 233, FormattedPublishDate = "4 hours ago", IsRead = true, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 1 Post 1 Post 1 Post 1 Post 1 Post 1", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 2000, FormattedPublishDate = "18 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 2", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 158, FormattedPublishDate = "9 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 3", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 233, FormattedPublishDate = "4 hours ago", IsRead = true, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 1 Post 1 Post 1 Post 1 Post 1 Post 1", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 2000, FormattedPublishDate = "18 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 2", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 158, FormattedPublishDate = "9 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 3", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 233, FormattedPublishDate = "4 hours ago", IsRead = true, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 1 Post 1 Post 1 Post 1 Post 1 Post 1", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 2000, FormattedPublishDate = "18 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 2", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 158, FormattedPublishDate = "9 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 3", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 233, FormattedPublishDate = "4 hours ago", IsRead = true, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 1 Post 1 Post 1 Post 1 Post 1 Post 1", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 2000, FormattedPublishDate = "18 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 2", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 158, FormattedPublishDate = "9 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 3", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 233, FormattedPublishDate = "4 hours ago", IsRead = true, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 1 Post 1 Post 1 Post 1 Post 1 Post 1", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 2000, FormattedPublishDate = "18 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 2", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 158, FormattedPublishDate = "9 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 3", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 233, FormattedPublishDate = "4 hours ago", IsRead = true, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 1 Post 1 Post 1 Post 1 Post 1 Post 1", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 2000, FormattedPublishDate = "18 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 2", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 158, FormattedPublishDate = "9 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 3", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 233, FormattedPublishDate = "4 hours ago", IsRead = true, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 1 Post 1 Post 1 Post 1 Post 1 Post 1", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 2000, FormattedPublishDate = "18 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 2", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 158, FormattedPublishDate = "9 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 3", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 233, FormattedPublishDate = "4 hours ago", IsRead = true, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 1 Post 1 Post 1 Post 1 Post 1 Post 1", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 2000, FormattedPublishDate = "18 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 2", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 158, FormattedPublishDate = "9 hours ago", IsRead = false, ImagePath = "" },
-                new RedditPost { PostTitle = "Post 3", PostText="Some post text will appear here! Some post text will appear here! ", AuthorName = "Mohammad", CommentsCount = 233, FormattedPublishDate = "4 hours ago", IsRead = true, ImagePath = "" },
-            };
+            DrawerItems = new ObservableCollection<RedditPost>(RedditPost.LoadItems());
         }
 
         #endregion
 
         #region Properties
 
-        public List<RedditPost> DrawerItems
+        public ObservableCollection<RedditPost> DrawerItems
         {
             get { return drawerItems; }
             set { SetProperty(ref drawerItems, value); }
@@ -77,22 +44,32 @@ namespace RedditClient.ViewModels
 
         #region Commands
 
-        public Command ItemTappedCommand => itemTappedCommand ?? (itemTappedCommand = new Command(data =>
+        public Command<RedditPost> ItemTappedCommand => itemTappedCommand ?? (itemTappedCommand = new Command<RedditPost>(data =>
         {
-            MessagingCenter.Send<DrawerPageViewModel, RedditPost>(this, "ShowPost", data as RedditPost);
+            data.MarkAsRead();
+            MessagingCenter.Send(this, nameof(MessageNames.ShowPost), data);
+
         }));
 
-        public Command DismissItemCommand => dismissItemCommand ?? (dismissItemCommand = new Command(data =>
+        public Command<RedditPost> DismissItemCommand => dismissItemCommand ?? (dismissItemCommand = new Command<RedditPost>(data =>
         {
+            var index = DrawerItems.IndexOf(data);
+            if (index >= 0)
+            {
+                DrawerItems.RemoveAt(index);
+                OnPropertyChange(nameof(DrawerItems));
+            }
         }));
 
         public Command DismissAllCommand => dismissAllCommand ?? (dismissAllCommand = new Command(() =>
         {
+            DrawerItems?.Clear();
+            MessagingCenter.Send(this, nameof(MessageNames.Deselect));
         }));
 
         public Command PullToRefreshCommand => pullToRefreshCommand ?? (pullToRefreshCommand = new Command(() =>
         {
-
+            DrawerItems = new ObservableCollection<RedditPost>(RedditPost.LoadItems());
         }));
 
         #endregion

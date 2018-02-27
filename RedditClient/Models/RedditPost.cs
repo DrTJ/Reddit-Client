@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using RedditClient.ViewModels;
 
 namespace RedditClient.Models
@@ -65,11 +66,40 @@ namespace RedditClient.Models
             set { SetProperty(ref commentsCount, value); }
         }
 
-
         public string ImagePath
         {
             get { return imagePath; }
             set { SetProperty(ref imagePath, value); }
+        }
+
+        #endregion
+   
+        #region Methods
+
+        public void MarkAsRead()
+        {
+            IsRead = true;
+        }
+
+        public static List<RedditPost> LoadItems()
+        {
+            var result = new List<RedditPost>();
+
+            for (int i = 0; i < 50; i++)
+            {
+                result.Add(new RedditPost
+                {
+                    PostTitle = $"Post {i + 1}",
+                    PostText = "Some post text will appear here! Some post text will appear here! ",
+                    AuthorName = "Mohammad",
+                    CommentsCount = 2000 + i,
+                    FormattedPublishDate = $"{i + 1} hours ago",
+                    IsRead = i % 2 == 0,
+                    ImagePath = ""
+                });
+            }
+
+            return result;
         }
 
         #endregion
